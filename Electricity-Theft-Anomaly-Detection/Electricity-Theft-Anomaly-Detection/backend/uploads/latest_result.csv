@@ -1,0 +1,6 @@
+consumer_id,avg_consumption,max_consumption,variability,load_factor,avg_anomaly_score,anomaly_label,risk_level,explanation
+MT_001,0.9908333333333333,1.6,0.35599116582427653,0.6192708333333333,0.0347100708794732,1,high,Consumption pattern significantly deviates from normal behavior.
+MT_002,0.7904166666666667,1.4,0.34739376438881553,0.5645833333333333,0.06278676632753538,1,low,Normal consumption pattern — no anomalies detected.
+MT_003,0.6666666666666666,1.25,0.33186779277907935,0.5333333333333333,0.08553138086709594,1,low,Normal consumption pattern — no anomalies detected.
+MT_004,1.1033333333333333,1.8,0.41460999659362086,0.6129629629629629,0.0347100708794732,1,high,Consumption pattern significantly deviates from normal behavior.
+MT_005,0.9041666666666668,1.55,0.35846189133048983,0.5833333333333334,0.04412410509935738,1,medium,Consumption shows moderate deviation; under monitoring.
