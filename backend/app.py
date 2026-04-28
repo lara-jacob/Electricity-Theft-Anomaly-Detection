@@ -41,10 +41,10 @@ def assign_risk(df):
 
 
 def build_explanations(df):
-    # Compute dataset-relative thresholds (worst 25% flagged per metric)
+    
     peak_th  = (df["max_consumption"] / df["avg_consumption"]).quantile(0.75)
     var_th   = (df["variability"]     / df["avg_consumption"]).quantile(0.75)
-    lf_th    = df["load_factor"].quantile(0.25)   # low load factor = suspicious
+    lf_th    = df["load_factor"].quantile(0.25)   
 
     explanations = []
     for _, row in df.iterrows():
