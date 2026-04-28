@@ -42,7 +42,7 @@ body{
   overflow-x:hidden;
 }
 
-/* subtle grid texture */
+
 body::before{
   content:'';
   position:fixed;inset:0;
@@ -572,7 +572,6 @@ tbody tr:hover{background:var(--surface2);}
 <nav>
   <div class="nav-brand">
     <div class="nav-logo">
-      <!-- Custom SVG logo mark: lightning bolt inside hexagon -->
       <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
         <polygon points="18,2 32,10 32,26 18,34 4,26 4,10" fill="rgba(232,255,71,0.1)" stroke="rgba(232,255,71,0.45)" stroke-width="1.2"/>
         <polygon points="18,6 28,12 28,24 18,30 8,24 8,12" fill="rgba(232,255,71,0.06)" stroke="rgba(232,255,71,0.2)" stroke-width="0.7"/>
@@ -863,7 +862,7 @@ tbody tr:hover{background:var(--surface2);}
   </div>
 </div>
 
-<!-- BACKEND DATA HOLDER -->
+
 <div id="data-holder"
      data-backend='{{ data | tojson | safe }}'
      data-total="{{ total }}"
