@@ -81,7 +81,7 @@ def build_explanations(df):
                     "Consumption shows moderate deviation; under monitoring."
                 )
 
-        else:  # low
+        else: 
             explanations.append("Normal consumption pattern — no anomalies detected.")
 
     return explanations
