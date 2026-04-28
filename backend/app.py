@@ -7,9 +7,7 @@ from preprocessing.preprocess import full_preprocessing
 
 app = Flask(__name__)
 
-# =========================
-# PATH SETTINGS
-# =========================
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 UPLOAD_FOLDER = os.path.join(BASE_DIR, "uploads")
@@ -18,16 +16,12 @@ MODEL_FOLDER  = os.path.join(BASE_DIR, "model")
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-# =========================
-# LOAD MODEL + SCALER
-# =========================
+
 model  = joblib.load(os.path.join(MODEL_FOLDER, "trained_model.pkl"))
 scaler = joblib.load(os.path.join(MODEL_FOLDER, "scaler.pkl"))
 
 
-# =========================
-# SHARED HELPER: assign risk levels from anomaly scores
-# =========================
+
 def assign_risk(df):
     high_th = df["avg_anomaly_score"].quantile(0.2)
     med_th  = df["avg_anomaly_score"].quantile(0.5)
@@ -45,18 +39,7 @@ def assign_risk(df):
     return df
 
 
-# =========================
-# SHARED HELPER: build explanations
-#
-# Logic:
-#   - Reasons are derived from dataset-relative percentile thresholds
-#     so they reflect how each consumer compares to the whole batch,
-#     not arbitrary hardcoded cutoffs.
-#   - The explanation tone then matches the risk level:
-#       high   → serious anomaly language
-#       medium → under monitoring language
-#       low    → clean bill of health (no flagging of minor stats)
-# =========================
+
 def build_explanations(df):
     # Compute dataset-relative thresholds (worst 25% flagged per metric)
     peak_th  = (df["max_consumption"] / df["avg_consumption"]).quantile(0.75)
@@ -104,9 +87,7 @@ def build_explanations(df):
     return explanations
 
 
-# =========================
-# LOAD INITIAL NOTEBOOK DATA
-# =========================
+
 try:
     csv_path = os.path.join(
         BASE_DIR,
@@ -123,16 +104,16 @@ try:
 
     print("Startup CSV columns:", df.columns.tolist())
 
-    # Keep only raw feature columns so the model always scores fresh
+    
     df = df[["consumer_id", "avg_consumption", "max_consumption", "variability", "load_factor"]]
 
-    # Score with model
+    
     X        = df[["avg_consumption", "max_consumption", "variability", "load_factor"]]
     X_scaled = scaler.transform(X)
     df["avg_anomaly_score"] = model.decision_function(X_scaled)
     df["anomaly_label"]     = model.predict(X_scaled)
 
-    # Risk + explanations
+    
     df = assign_risk(df)
     df["explanation"] = build_explanations(df)
 
@@ -148,9 +129,7 @@ except Exception as e:
     global_results = []
 
 
-# =========================
-# HOME PAGE
-# =========================
+
 @app.route("/")
 def home():
     total  = len(global_results)
@@ -168,9 +147,7 @@ def home():
     )
 
 
-# =========================
-# CSV UPLOAD
-# =========================
+
 @app.route("/upload_csv", methods=["POST"])
 def upload_csv():
 
@@ -206,8 +183,5 @@ def upload_csv():
     })
 
 
-# =========================
-# RUN
-# =========================
 if __name__ == "__main__":
     app.run(debug=True)
