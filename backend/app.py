@@ -108,7 +108,7 @@ try:
     df = df[["consumer_id", "avg_consumption", "max_consumption", "variability", "load_factor"]]
 
     
-    X        = df[["avg_consumption", "max_consumption", "variability", "load_factor"]]
+    X = df[["avg_consumption", "max_consumption", "variability", "load_factor"]]
     X_scaled = scaler.transform(X)
     df["avg_anomaly_score"] = model.decision_function(X_scaled)
     df["anomaly_label"]     = model.predict(X_scaled)
